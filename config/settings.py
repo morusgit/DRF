@@ -88,7 +88,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'homeworks_drf',
         'USER': 'postgres',
-        'PASSWORD': '3472',
+        'PASSWORD': '0000',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
