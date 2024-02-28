@@ -34,7 +34,7 @@ class Migration(migrations.Migration):
                 ('description', models.TextField(verbose_name='описание урока')),
                 ('preview', models.ImageField(blank=True, null=True, upload_to='lesson_previews/', verbose_name='превью урока')),
                 ('video_link', models.URLField(blank=True, null=True, verbose_name='ссылка на видео')),
-                ('course', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='lessons', to='lms.course', verbose_name='курс')),
+                ('course', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='lessons', to='courses.course', verbose_name='курс')),
             ],
             options={
                 'verbose_name': 'урок',

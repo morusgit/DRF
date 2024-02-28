@@ -8,7 +8,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('lms', '0002_alter_course_title'),
+        ('courses', '0002_alter_course_title'),
         ('users', '0001_initial'),
     ]
 
@@ -20,8 +20,8 @@ class Migration(migrations.Migration):
                 ('date_of_payment', models.DateField(auto_now=True, verbose_name='дата оплаты')),
                 ('amount', models.DecimalField(decimal_places=2, max_digits=12, verbose_name='сумма оплаты')),
                 ('payment_type', models.CharField(choices=[('cash', 'Наличными'), ('bank', 'Перевод на счёт')], max_length=20, verbose_name='способ оплаты')),
-                ('payed_course', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='lms.course', verbose_name='оплаченный курс')),
-                ('payed_lesson', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='lms.lesson', verbose_name='оплаченный урок')),
+                ('payed_course', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='courses.course', verbose_name='оплаченный курс')),
+                ('payed_lesson', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='courses.lesson', verbose_name='оплаченный урок')),
                 ('payer', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='payer', to=settings.AUTH_USER_MODEL, verbose_name='плательщик')),
             ],
             options={

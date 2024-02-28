@@ -44,8 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'users.apps.UsersConfig',
-    'lms.apps.LmsConfig',
+    'users',
+    'courses',
 
     'rest_framework',
     'django_filters',

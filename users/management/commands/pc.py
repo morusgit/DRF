@@ -1,7 +1,7 @@
 from django.core.management import BaseCommand
 import datetime
 
-from lms.models import Course, Lesson
+from courses.models import Course, Lesson
 from users.models import Payment, User
 
 
