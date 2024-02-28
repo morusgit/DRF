@@ -30,8 +30,8 @@ class Payment(models.Model):
         CASH = 'cash', 'Наличными'
         BANK = 'bank', 'Перевод на счёт'
 
-    payer = models.ForeignKey(User, on_delete=models.SET_NULL, **NULLABLE,
-                              verbose_name='плательщик', related_name='payer')
+    payer = models.ForeignKey(User, on_delete=models.SET_NULL, **NULLABLE, verbose_name='плательщик',
+                              related_name='payer')
     date_of_payment = models.DateField(auto_now=True, verbose_name='дата оплаты')
     payed_course = models.ForeignKey(Course, on_delete=models.SET_NULL, **NULLABLE, verbose_name='оплаченный курс')
     payed_lesson = models.ForeignKey(Lesson, on_delete=models.SET_NULL, **NULLABLE, verbose_name='оплаченный урок')
