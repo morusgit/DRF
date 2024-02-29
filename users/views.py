@@ -15,6 +15,7 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
 
+
 class UserRegistrationView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserRegistrationSerializer
@@ -39,4 +40,3 @@ class PaymentViewSet(viewsets.ModelViewSet):
     filterset_fields = ['course', 'lesson', 'payment_method']
     ordering_fields = ['payment_date']
     permission_classes = [IsAuthenticated]
-

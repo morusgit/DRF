@@ -17,7 +17,6 @@ class LessonSerializer(serializers.ModelSerializer):
 
 
 class SimpleLessonSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Lesson
         fields = ['id', 'title', 'video_link']
@@ -46,6 +45,7 @@ class CourseSerializer(serializers.ModelSerializer):
         if user.is_authenticated:
             return Subscription.objects.filter(user=user, course=obj).exists()
         return False
+
 
 # В этом сериализаторе мы добавили поле is_subscribed, которое будет указывать,
 # подписан ли текущий пользователь на данный курс.

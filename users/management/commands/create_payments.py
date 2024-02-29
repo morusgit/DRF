@@ -1,7 +1,7 @@
-from django.core.management import BaseCommand
-import datetime
-
+from django.core.management.base import BaseCommand
 from users.models import Payment, User
+from datetime import datetime
+from decimal import Decimal
 
 
 class Command(BaseCommand):
@@ -12,21 +12,19 @@ class Command(BaseCommand):
         user1, created = User.objects.get_or_create(email='mail@test.com')
         user2, created = User.objects.get_or_create(email='test@test.com')
 
-        # Создаём платежи
+        # Создаем платежи
         payment1 = Payment.objects.create(
-            payer=user1,
-            date_of_payment=datetime.datetime.now().date(),
-            amount=77555599,
-            payment_type='cash',
-
+            user=user1,
+            payment_date=datetime.now(),
+            amount=Decimal('50.00'),
+            payment_method='cash'
         )
 
         payment2 = Payment.objects.create(
-            payer=user2,
-            date_of_payment=datetime.datetime.now().date(),
-            amount=88777799,
-            payment_type='cash',
-
+            user=user2,
+            payment_date=datetime.now(),
+            amount=Decimal('30.00'),
+            payment_method='transfer'
         )
 
         self.stdout.write(self.style.SUCCESS('Successfully created payment objects'))
