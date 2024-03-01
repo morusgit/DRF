@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from users.services import create_checkout_session
 
 
 class User(AbstractUser):
@@ -13,16 +14,25 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
 
 
-from courses.models import Course, Lesson
+from courses.models import Course, Lesson #Ошибка скорее всего связана с импортом из courses.models, который ссылается на модели курсов и уроков до их объявления.
 
 
 class Payment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='плательщик')
-    payment_date = models.DateField(auto_now=True, verbose_name='дата оплаты')
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True, blank=True, verbose_name='оплаченный курс')
-    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, null=True, blank=True, verbose_name='оплаченный урок')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    payment_date = models.DateField()
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True, blank=True)
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, null=True, blank=True)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     payment_method = models.CharField(max_length=20, choices=[('cash', 'Наличные'), ('transfer', 'Перевод на счет')])
+    # Добавляем поля для связи с продуктом и ценой в Stripe
+    product_id = models.CharField(max_length=50, blank=True, null=True)
+    price_id = models.CharField(max_length=50, blank=True, null=True)
+
+    def create_checkout_session(self, success_url, cancel_url):
+        """Создать сессию для платежа."""
+        if not self.product_id or not self.price_id:
+            return None
+        return create_checkout_session(self.price_id, success_url, cancel_url)
 
     def __str__(self):
         # pylint: disable=no-member

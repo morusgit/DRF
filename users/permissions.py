@@ -14,6 +14,6 @@ class IsModerator(permissions.BasePermission):
 
 
 class IsNotModerator(permissions.BasePermission):
-    # Проверяем, что пользователь не является модератором.
+    #Проверяем, что пользователь не является модератором.
     def has_permission(self, request, view):
         return not request.user.groups.filter(name='Moderators').exists()

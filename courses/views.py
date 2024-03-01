@@ -1,8 +1,10 @@
-from django.shortcuts import get_object_or_404
 from rest_framework import generics, viewsets, permissions
+from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+from users.permissions import IsOwner, IsModerator, IsNotModerator
 from .models import Course, Lesson, Subscription
 from .paginators import MyPagination
 from .serializers import CourseSerializer, LessonSerializer
@@ -13,7 +15,7 @@ from .serializers import CourseSerializer, LessonSerializer
 class CoursesViewSet(viewsets.ModelViewSet):
     serializer_class = CourseSerializer
     queryset = Course.objects.all()
-    permission_classes = [IsAuthenticated]  # , IsModerator, IsOwner]
+    permission_classes = [IsAuthenticated, IsModerator, IsOwner]
     pagination_class = MyPagination
 
     def perform_create(self, serializer):
@@ -22,15 +24,15 @@ class CoursesViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         if self.action == 'create':
-            self.permission_classes = [IsAuthenticated]  # , IsNotModerator]
+            self.permission_classes = [IsAuthenticated, IsNotModerator]
         elif self.action == 'list':
-            self.permission_classes = [IsAuthenticated]  # , IsModerator, IsOwner]
+            self.permission_classes = [IsAuthenticated, IsModerator, IsOwner]
         elif self.action == 'retrieve':
-            self.permission_classes = [IsAuthenticated]  # , IsModerator, IsOwner]
+            self.permission_classes = [IsAuthenticated, IsModerator, IsOwner]
         elif self.action in ['update', 'partial_update']:
-            self.permission_classes = [IsAuthenticated]  # , IsModerator, IsOwner]
+            self.permission_classes = [IsAuthenticated, IsModerator, IsOwner]
         elif self.action == 'destroy':
-            self.permission_classes = [IsAuthenticated]  # , IsOwner]
+            self.permission_classes = [IsAuthenticated, IsOwner]
         return [permission() for permission in self.permission_classes]
 
     def get(self, request):
@@ -42,7 +44,7 @@ class CoursesViewSet(viewsets.ModelViewSet):
 
 # Представления для уроков
 class LessonListAPIView(generics.ListAPIView):
-    queryset = Lesson.objects.all().order_by('course_id')
+    queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
     pagination_class = MyPagination
 
@@ -61,21 +63,21 @@ class LessonListAPIView(generics.ListAPIView):
     def get_permissions(self):
         if self.request.method == 'GET':
             # Для GET-запросов проверяем только IsAuthenticated и IsNotModerator
-            return [permissions.IsAuthenticated()]  # , IsNotModerator()]
+            return [permissions.IsAuthenticated(), IsModerator()]
         elif self.request.method == 'POST':
             # Для POST-запросов проверяем только IsAuthenticated и IsModerator
-            return [permissions.IsAuthenticated()]  # , IsModerator()]
+            return [permissions.IsAuthenticated(), IsModerator()]
 
 
 class LessonRetrieveAPIView(generics.RetrieveAPIView):
-    queryset = Lesson.objects.all().order_by('course_id')
+    queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
-    permission_classes = [IsAuthenticated]  # , IsModerator or IsOwner]
+    permission_classes = [IsAuthenticated, IsModerator or IsOwner]
 
 
 class LessonCreateAPIView(generics.CreateAPIView):
     serializer_class = LessonSerializer
-    permission_classes = [IsAuthenticated]  # and IsNotModerator]
+    permission_classes = [IsAuthenticated, IsNotModerator]
 
     def perform_create(self, serializer):
         # При создании урока добавляем текущего пользователя как владельца
@@ -83,15 +85,15 @@ class LessonCreateAPIView(generics.CreateAPIView):
 
 
 class LessonUpdateAPIView(generics.UpdateAPIView):
-    queryset = Lesson.objects.all().order_by('course_id')
+    queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
-    permission_classes = [IsAuthenticated]  # , IsOwner or IsModerator]
+    permission_classes = [IsAuthenticated, IsOwner or IsModerator]
 
 
 class LessonDestroyAPIView(generics.DestroyAPIView):
-    queryset = Lesson.objects.all().order_by('course_id')
+    queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
-    permission_classes = [IsAuthenticated]  # , IsOwner]
+    permission_classes = [IsAuthenticated, IsOwner]
 
 
 class SubscriptionAPIView(APIView):
@@ -123,26 +125,3 @@ class SubscriptionAPIView(APIView):
         # Возвращаем ответ в API
         return Response({"message": message})
 
-# class CourseListCreateAPIView(generics.ListCreateAPIView):
-#     queryset = Course.objects.all()
-#     serializer_class = CourseSerializer
-#
-#
-# class CourseRetrieveAPIView(generics.RetrieveAPIView):
-#     queryset = Course.objects.all()
-#     serializer_class = CourseSerializer
-#
-#
-# class CourseCreateAPIView(generics.CreateAPIView):
-#     queryset = Course.objects.all()
-#     serializer_class = CourseSerializer
-#
-#
-# class CourseUpdateAPIView(generics.UpdateAPIView):
-#     queryset = Course.objects.all()
-#     serializer_class = CourseSerializer
-#
-#
-# class CourseDestroyAPIView(generics.DestroyAPIView):
-#     queryset = Course.objects.all()
-#     serializer_class = CourseSerializer
