@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from rest_framework.relations import SlugRelatedField
-
 from .models import Course, Lesson, Subscription
 from .validators import YouTubeLinkValidator
 

@@ -16,14 +16,14 @@ class Command(BaseCommand):
         payment1 = Payment.objects.create(
             user=user1,
             payment_date=datetime.now(),
-            amount=Decimal('100.00'),
+            amount=Decimal('1005.00'),
             payment_method='cash'
         )
 
         payment2 = Payment.objects.create(
             user=user2,
             payment_date=datetime.now(),
-            amount=Decimal('200.00'),
+            amount=Decimal('2005.00'),
             payment_method='transfer'
         )
 

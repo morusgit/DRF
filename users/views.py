@@ -12,6 +12,7 @@ from users.serializers import UserSerializer, PaymentSerializer, UserRegistratio
 from users.services import create_product, create_price
 
 
+# Create your views here.
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -84,6 +85,5 @@ class PaymentStatusAPIView(APIView):
 
         # Получаем данные о статусе платежа из Stripe
         # В этом месте мы можем добавить логику для проверки статуса платежа в Stripe
-
         # Возвращаем данные о статусе платежа в ответе
         return Response({'status': 'Payment status goes here'}, status=status.HTTP_200_OK)
