@@ -1,4 +1,4 @@
-# Docker 27.2
+# Docker (27.2)
 
 #Проект онлайн-обучения
 
@@ -30,6 +30,7 @@ docker-compose up --build
 7.При необходимости выполните миграции базы данных и соберите статические файлы:
 
 docker-compose exec web python manage.py migrate
+
 docker-compose exec web python manage.py collectstatic
 
 Готово! Проект онлайн-обучения теперь запущен с помощью Docker Compose.
