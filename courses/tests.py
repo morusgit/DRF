@@ -23,11 +23,14 @@ class CourseLessonSubscriptionAPITest(TestCase):
         self.user_not_moderator = User.objects.create(email='notmoderator@example.com', password='testpassword')
 
         # Создаем курс
-        self.course = Course.objects.create(title='Test Course 1', description='Test description 1', owner=self.user_owner)
+        self.course = Course.objects.create(title='Test Course 1', description='Test description 1',
+                                            owner=self.user_owner)
 
         # Создаем уроки
-        self.lesson1 = Lesson.objects.create(title='Lesson 1', description='Lesson description 1', course=self.course, owner=self.user_owner)
-        self.lesson2 = Lesson.objects.create(title='Lesson 2', description='Lesson description 2', course=self.course, owner=self.user_owner)
+        self.lesson1 = Lesson.objects.create(title='Lesson 1', description='Lesson description 1', course=self.course,
+                                             owner=self.user_owner)
+        self.lesson2 = Lesson.objects.create(title='Lesson 2', description='Lesson description 2', course=self.course,
+                                             owner=self.user_owner)
 
     def test_crud_lessons(self):
         """

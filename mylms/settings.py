@@ -95,14 +95,9 @@ WSGI_APPLICATION = 'mylms.wsgi.application'
 DATABASES = {
        'default': {
         'ENGINE': 'django.db.backends.postgresql',
-#        'USER': 'postgres',
-#        'NAME': 'postgres',
-#        'PASSWORD': 'postgres',
         'USER': os.getenv('DB_USER'),
         'NAME': os.getenv('DB_NAME'),
         'PASSWORD': os.getenv('DB_PASSWORD'),
-#        'HOST': 'db',
-#        'PORT': '5432',
        }
 }
 
@@ -176,7 +171,7 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 # URL-адрес брокера сообщений
-CELERY_BROKER_URL = 'redis://localhost:6379' # Ќапример, Redis, который по умолчанию работает на порту 6379
+CELERY_BROKER_URL = 'redis://localhost:6379'  # Ќапример, Redis, который по умолчанию работает на порту 6379
 
 # URL-адрес брокера результатов, также Redis
 CELERY_RESULT_BACKEND = 'redis://localhost:6379'

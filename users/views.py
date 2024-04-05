@@ -1,4 +1,3 @@
-from django.db.models.functions import datetime
 from django.utils import timezone
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, generics, status
@@ -26,7 +25,6 @@ class UserRegistrationView(generics.CreateAPIView):
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        user = self.perform_create(serializer)
         return Response({'message': 'User registered successfully', 'user_data': serializer.data})
 
     def perform_create(self, serializer):
@@ -63,7 +61,7 @@ class PaymentCreateAPIView(APIView):
 
         # Создаем запись о платеже в нашей системе
         payment = Payment.objects.create(user=user, amount=amount, payment_method=payment_method,
-                                          product_id=product_id, price_id=price_id, payment_date=payment_date)
+                                         product_id=product_id, price_id=price_id, payment_date=payment_date)
 
         # Создаем сессию для платежа в Stripe
         success_url = "http://example.com/success"  # Замените на ваш URL успешного платежа
@@ -80,9 +78,6 @@ class PaymentCreateAPIView(APIView):
 
 class PaymentStatusAPIView(APIView):
     def get(self, request, pk, format=None):
-        # Получаем запись о платеже по его идентификатору
-        payment = Payment.objects.get(pk=pk)
-
         # Получаем данные о статусе платежа из Stripe
         # В этом месте мы можем добавить логику для проверки статуса платежа в Stripe
         # Возвращаем данные о статусе платежа в ответе

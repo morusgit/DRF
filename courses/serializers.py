@@ -36,7 +36,8 @@ class CourseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Course
-        fields = ['id', 'title', 'preview', 'description', 'num_of_lessons', 'lessons', 'owner', 'is_subscribed', 'price']
+        fields = ['id', 'title', 'preview', 'description', 'num_of_lessons', 'lessons', 'owner',
+                  'is_subscribed', 'price']
 
     def get_is_subscribed(self, obj):
         # Получаем текущего пользователя

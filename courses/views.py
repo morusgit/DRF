@@ -133,5 +133,3 @@ class SubscriptionAPIView(APIView):
 
         # Возвращаем ответ в API
         return Response({"message": message})
-
-

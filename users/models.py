@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from users.services import create_checkout_session
+from courses.models import Course, Lesson
 
 
 class User(AbstractUser):
@@ -13,9 +14,6 @@ class User(AbstractUser):
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
-
-
-from courses.models import Course, Lesson
 
 
 class Payment(models.Model):
